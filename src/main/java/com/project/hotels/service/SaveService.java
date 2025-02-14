@@ -7,6 +7,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SaveService {
@@ -16,16 +19,20 @@ public class SaveService {
     private final CountryRepository countryRepository;
     private final ContactRepository contactsRepository;
     private final ArrivalTimeRepository arrivalTimeRepository;
+    private final AmenityRepository amenityRepository;
+    private final HotelAmenityRepository hotelAmenityRepository;
 
     public SaveService(HotelRepository hotelRepository, AddressRepository addressRepository,
                        CityRepository cityRepository, CountryRepository countryRepository,
-                       ContactRepository contactsRepository, ArrivalTimeRepository arrivalTimeRepository) {
+                       ContactRepository contactsRepository, ArrivalTimeRepository arrivalTimeRepository, AmenityRepository amenityRepository, HotelAmenityRepository hotelAmenityRepository) {
         this.hotelRepository = hotelRepository;
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
         this.countryRepository = countryRepository;
         this.contactsRepository = contactsRepository;
         this.arrivalTimeRepository = arrivalTimeRepository;
+        this.amenityRepository = amenityRepository;
+        this.hotelAmenityRepository = hotelAmenityRepository;
     }
 
     @Transactional
@@ -67,5 +74,29 @@ public class SaveService {
         return arrivalTimeRepository.findByCheckInAndCheckOut(checkIn, checkOut)
                 .orElseGet(() -> arrivalTimeRepository.save(new ArrivalTime(null, checkIn, checkOut)));
 
+    }
+
+    public void saveAmenities(Hotel hotel, List<String> amenities){
+        List<Amenity> existingAmenities = amenityRepository.findByNameIgnoreCaseIn(amenities);
+
+        Set<String> existingNames = existingAmenities.stream()
+                .map(Amenity::getName)
+                .collect(Collectors.toSet());
+
+        List<Amenity> newAmenities = amenities.stream()
+                .filter(name -> !existingNames.contains(name))
+                .map(Amenity::new)
+                .collect(Collectors.toList());
+
+        if (!newAmenities.isEmpty()) {
+            newAmenities = amenityRepository.saveAll(newAmenities);
+            existingAmenities.addAll(newAmenities);
+        }
+
+        List<HotelAmenity> hotelAmenities = existingAmenities.stream()
+                .map(amenity -> new HotelAmenity(new HotelAmenityId(hotel.getId(), amenity.getId()), hotel, amenity))
+                .collect(Collectors.toList());
+
+        hotelAmenityRepository.saveAll(hotelAmenities);
     }
 }

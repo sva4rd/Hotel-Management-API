@@ -3,11 +3,11 @@ package com.project.hotels.service;
 import com.project.hotels.dto.*;
 import com.project.hotels.model.*;
 import com.project.hotels.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +48,13 @@ public class HotelService {
     public HotelShortDetailsResponse createHotel(CreateHotelRequest request) {
         Hotel hotel = saveService.saveHotel(request);
         return formatService.mapToShortDto(hotel);
+    }
+
+    public void addAmenitiesToHotel(Long hotelId, List<String> amenities) {
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id: " + hotelId));
+
+        saveService.saveAmenities(hotel, amenities);
     }
 
 }

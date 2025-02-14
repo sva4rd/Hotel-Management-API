@@ -24,16 +24,5 @@ public class HotelAmenity {
     @MapsId("amenityId")
     @JoinColumn(name = "amenity_id", nullable = false)
     private Amenity amenity;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "hotel_id", nullable = false)
-//    private Hotel hotel;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "amenities_id", nullable = false)
-//    private Amenity amenity;
 }
 

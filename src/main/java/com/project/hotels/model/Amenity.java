@@ -22,6 +22,10 @@ public class Amenity {
 
     @OneToMany(mappedBy = "amenity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HotelAmenity> hotelAmenities;
+
+    public Amenity(String name){
+        this.name = name;
+    }
 }
 
 
