@@ -2,11 +2,12 @@ package com.project.hotels.service;
 
 import com.project.hotels.dto.*;
 import com.project.hotels.model.*;
-import com.project.hotels.repository.HotelRepository;
-import com.project.hotels.repository.HotelSpecification;
+import com.project.hotels.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,10 +15,13 @@ import java.util.stream.Collectors;
 public class HotelService {
     private final HotelRepository hotelRepository;
     private final FormatService formatService;
+    private final SaveService saveService;
 
-    public HotelService(HotelRepository hotelRepository, FormatService formatService) {
+    public HotelService(HotelRepository hotelRepository, FormatService formatService,
+                        SaveService saveService) {
         this.hotelRepository = hotelRepository;
         this.formatService = formatService;
+        this.saveService = saveService;
     }
 
     public List<HotelShortDetailsResponse> getAllHotels() {
@@ -38,6 +42,12 @@ public class HotelService {
         return hotels.stream()
                 .map(formatService::mapToShortDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public HotelShortDetailsResponse createHotel(CreateHotelRequest request) {
+        Hotel hotel = saveService.saveHotel(request);
+        return formatService.mapToShortDto(hotel);
     }
 
 }

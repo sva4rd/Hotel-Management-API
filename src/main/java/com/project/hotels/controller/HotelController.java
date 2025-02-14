@@ -39,4 +39,10 @@ public class HotelController {
 
         return hotelService.searchHotels(name, brand, city, country, amenities);
     }
+
+    @PostMapping("/hotels")
+    public ResponseEntity<HotelShortDetailsResponse> createHotel(@Valid @RequestBody CreateHotelRequest request) {
+        HotelShortDetailsResponse response = hotelService.createHotel(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
