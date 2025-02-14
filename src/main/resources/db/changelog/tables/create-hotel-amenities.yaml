@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: sva4rd
+      changes:
+        - createTable:
+            tableName: hotel_amenities
+            columns:
+              - column:
+                  name: hotel_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amenity_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: hotel_amenities
+            columnNames: hotel_id, amenity_id
+            constraintName: pk_hotel_amenities
+
+        - addForeignKeyConstraint:
+            baseTableName: hotel_amenities
+            baseColumnNames: hotel_id
+            constraintName: fk_hotel_amenities_hotel
+            referencedTableName: hotels
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: hotel_amenities
+            baseColumnNames: amenity_id
+            constraintName: fk_hotel_amenities_amenity
+            referencedTableName: amenities
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+
+      rollback:
+        - dropTable:
+            tableName: hotel_amenities

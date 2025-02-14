@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-amenities
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Free parking" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Free WiFi" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Non-smoking rooms" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Concierge" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "On-site restaurant" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Fitness center" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Pet-friendly rooms" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Room service" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Business center" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Meeting rooms" }
+        - insert:
+            tableName: amenities
+            columns:
+              - column: { name: name, value: "Swimming Pool" }
+
+      rollback:
+        - delete:
+            tableName: amenities
+            where: "id <= 11"

@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-hotels
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: hotels
+            columns:
+              - column:
+                  name: name
+                  value: "DoubleTree by Hilton Minsk"
+              - column:
+                  name: description
+                  value: "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel's 20th floor ..."
+              - column:
+                  name: brand
+                  value: "Hilton"
+              - column:
+                  name: address_id
+                  valueNumeric: "1"
+              - column:
+                  name: arrival_time_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: hotels
+            columns:
+              - column:
+                  name: name
+                  value: "Beverly Hotel"
+              - column:
+                  name: description
+                  value: "5-star hotel in the center of the Belarusian capital ..."
+              - column:
+                  name: brand
+                  value: "Sander"
+              - column:
+                  name: address_id
+                  valueNumeric: "2"
+              - column:
+                  name: arrival_time_id
+                  valueNumeric: "2"
+        - insert:
+            tableName: hotels
+            columns:
+              - column:
+                  name: name
+                  value: "Grand Plazza"
+              - column:
+                  name: description
+                  value: "Luxury estate near ski resort ..."
+              - column:
+                  name: brand
+                  value: "BSS"
+              - column:
+                  name: address_id
+                  valueNumeric: "3"
+              - column:
+                  name: arrival_time_id
+                  valueNumeric: "1"
+
+      rollback:
+        - delete:
+            tableName: hotels
+            where: "id <= 3"

@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-contacts
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: contacts
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: phone, value: "+375 17 309-80-00" }
+              - column: { name: email, value: "doubletreeminsk.info@hilton.com" }
+        - insert:
+            tableName: contacts
+            columns:
+              - column: { name: hotel_id, value: "2" }
+              - column: { name: phone, value: "+375 17 489-33-44" }
+              - column: { name: email, value: "beverly.info@sander.com" }
+        - insert:
+            tableName: contacts
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: phone, value: "+375 17 267-10-41" }
+              - column: { name: email, value: "grandplazza.contact@bss.com" }
+
+      rollback:
+        - delete:
+            tableName: contacts
+            where: "id <= 3"

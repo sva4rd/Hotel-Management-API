@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-cities
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: cities
+            columns:
+              - column:
+                  name: name
+                  value: "Minsk"
+              - column:
+                  name: country_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: cities
+            columns:
+              - column:
+                  name: name
+                  value: "Logoysk"
+              - column:
+                  name: country_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: cities
+            columns:
+              - column:
+                  name: name
+                  value: "Mogilev"
+              - column:
+                  name: country_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: cities
+            columns:
+              - column:
+                  name: name
+                  value: "Moscow"
+              - column:
+                  name: country_id
+                  valueNumeric: "2"
+
+      rollback:
+        - delete:
+            tableName: cities
+            where: "id <= 4"

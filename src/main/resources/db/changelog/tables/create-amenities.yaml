@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: sva4rd
+      changes:
+        - createTable:
+            tableName: amenities
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: amenities

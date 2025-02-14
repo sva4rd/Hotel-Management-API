@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: sva4rd
+      changes:
+        - createTable:
+            tableName: addresses
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: house_number
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: street
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: post_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cities_addresses
+                    references: cities(id)
+
+      rollback:
+        - dropTable:
+            tableName: addresses

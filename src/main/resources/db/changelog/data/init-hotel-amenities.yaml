@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-hotel-amenities
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "1" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "2" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "3" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "4" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "5" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "6" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "7" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "8" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "9" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "1" }
+              - column: { name: amenity_id, value: "10" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "2" }
+              - column: { name: amenity_id, value: "4" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "2" }
+              - column: { name: amenity_id, value: "8" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "2" }
+              - column: { name: amenity_id, value: "9" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "2" }
+              - column: { name: amenity_id, value: "10" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: amenity_id, value: "4" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: amenity_id, value: "8" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: amenity_id, value: "9" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: amenity_id, value: "10" }
+        - insert:
+            tableName: hotel_amenities
+            columns:
+              - column: { name: hotel_id, value: "3" }
+              - column: { name: amenity_id, value: "11" }
+
+      rollback:
+        - delete:
+            tableName: hotel_amenities
+            where: "hotel_id <= 3"

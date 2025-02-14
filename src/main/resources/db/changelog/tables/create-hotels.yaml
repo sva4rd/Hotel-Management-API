@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: sva4rd
+      changes:
+        - createTable:
+            tableName: hotels
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: brand
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_hotels_addresses
+                    references: addresses(id)
+              - column:
+                  name: arrival_time_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_arrival_times_hotels
+                    references: arrival_times(id)
+
+      rollback:
+        - dropTable:
+            tableName: hotels

@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-countries
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: countries
+            columns:
+              - column:
+                  name: name
+                  value: "Belarus"
+        - insert:
+            tableName: countries
+            columns:
+              - column:
+                  name: name
+                  value: "Russia"
+
+      rollback:
+        - delete:
+            tableName: countries
+            where: "id <= 2"
