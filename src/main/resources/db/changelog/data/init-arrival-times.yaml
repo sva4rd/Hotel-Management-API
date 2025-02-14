@@ -6,13 +6,11 @@ databaseChangeLog:
         - insert:
             tableName: arrival_times
             columns:
-              - column: { name: id, value: "1" }
               - column: { name: check_in, value: "14:00:00" }
               - column: { name: check_out, value: "12:00:00" }
         - insert:
             tableName: arrival_times
             columns:
-              - column: { name: id, value: "2" }
               - column: { name: check_in, value: "15:00:00" }
               - column: { name: check_out, value: "11:00:00" }
 

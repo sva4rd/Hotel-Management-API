@@ -39,7 +39,7 @@ databaseChangeLog:
                   name: arrival_time_id
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
                     foreignKeyName: fk_arrival_times_hotels
                     references: arrival_times(id)
 
