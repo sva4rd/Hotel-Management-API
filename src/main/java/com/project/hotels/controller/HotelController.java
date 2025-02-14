@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/hotels")
 public class HotelController {
     private final HotelService hotelService;
 
@@ -19,34 +20,23 @@ public class HotelController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/hotels")
+    @GetMapping
     public List<HotelShortDetailsResponse> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
-    @GetMapping("/hotels/{id}")
+    @GetMapping("/{id}")
     public HotelFullDetailsResponse getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
-    @GetMapping("/search")
-    public List<HotelShortDetailsResponse> searchHotels(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String country,
-            @RequestParam(required = false) List<String> amenities) {
-
-        return hotelService.searchHotels(name, brand, city, country, amenities);
-    }
-
-    @PostMapping("/hotels")
+    @PostMapping
     public ResponseEntity<HotelShortDetailsResponse> createHotel(@Valid @RequestBody CreateHotelRequest request) {
         HotelShortDetailsResponse response = hotelService.createHotel(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("hotels/{id}/amenities")
+    @PostMapping("/{id}/amenities")
     public ResponseEntity<Void> addAmenitiesToHotel(@PathVariable Long id, @RequestBody List<String> amenities) {
         hotelService.addAmenitiesToHotel(id, amenities);
         return ResponseEntity.ok().build();

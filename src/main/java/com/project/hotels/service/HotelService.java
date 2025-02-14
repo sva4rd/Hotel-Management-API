@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,12 +17,14 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final FormatService formatService;
     private final SaveService saveService;
+    private final HotelHistogramService hotelHistogramService;
 
     public HotelService(HotelRepository hotelRepository, FormatService formatService,
-                        SaveService saveService) {
+                        SaveService saveService, HotelHistogramService hotelHistogramService) {
         this.hotelRepository = hotelRepository;
         this.formatService = formatService;
         this.saveService = saveService;
+        this.hotelHistogramService = hotelHistogramService;
     }
 
     public List<HotelShortDetailsResponse> getAllHotels() {
@@ -55,6 +58,10 @@ public class HotelService {
                 .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id: " + hotelId));
 
         saveService.saveAmenities(hotel, amenities);
+    }
+
+    public Map<String, Integer> getHotelHistogram(String param) {
+        return hotelHistogramService.getHotelHistogram(param);
     }
 
 }
