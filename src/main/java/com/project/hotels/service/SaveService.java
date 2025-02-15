@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,23 +38,33 @@ public class SaveService {
 
     @Transactional
     public Hotel saveHotel(CreateHotelRequest request) {
-        Address address = saveAddress(request.getAddress());
-        ArrivalTime arrivalTime = saveArrivalTime(request.getArrivalTime());
-        Hotel hotel = Hotel.builder()
-                .name(request.getName())
-                .brand(request.getBrand())
-                .description(request.getDescription())
-                .address(address)
-                .arrivalTime(arrivalTime)
-                .build();
+        Hotel hotel;
+        try {
+            Address address = saveAddress(request.getAddress());
+            ArrivalTime arrivalTime = saveArrivalTime(request.getArrivalTime());
+            hotel = Hotel.builder()
+                    .name(request.getName())
+                    .brand(request.getBrand())
+                    .description(request.getDescription())
+                    .address(address)
+                    .arrivalTime(arrivalTime)
+                    .build();
 
-        hotel = hotelRepository.save(hotel);
-        Contact contact = saveContact(request.getContact(), hotel);
-        hotel.setContact(contact);
+            checkContacts(request.getContact());
+            hotel = hotelRepository.save(hotel);
+            Contact contact = saveContact(request.getContact(), hotel);
+            hotel.setContact(contact);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid hotel data: " + e.getMessage());
+        }
+
         return hotel;
     }
 
     private Address saveAddress(AddressDto addressDto) {
+        if (addressDto.getHouseNumber() <= 0)
+            throw new IllegalArgumentException("Invalid argument: The house number cannot be less than or equal to zero");
+
         Country country = countryRepository.findByNameIgnoreCase(addressDto.getCountry())
                 .orElseGet(() -> countryRepository.save(new Country(null, addressDto.getCountry())));
         City city = cityRepository.findByNameIgnoreCaseAndCountry(addressDto.getCity(), country)
@@ -62,13 +73,26 @@ public class SaveService {
         return addressRepository.save(new Address(null, addressDto.getHouseNumber(), addressDto.getStreet(), addressDto.getPostCode(), city));
     }
 
+    private static final Pattern PHONE_PATTERN = Pattern.compile(
+            "^\\+\\d{1,3}[-.\\s]?\\(?\\d{2,3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{2}[-.\\s]?\\d{2,4}$"
+    );
+
+    private boolean isValidPhoneNumber(String phone) {
+        return phone != null && PHONE_PATTERN.matcher(phone).matches();
+    }
+
+    private void checkContacts(ContactDto contactDto){
+        if(!isValidPhoneNumber(contactDto.getPhone()))
+            throw new IllegalArgumentException("Invalid phone number format: " + contactDto.getPhone());
+    }
+
     private Contact saveContact(ContactDto contactDto, Hotel hotel) {
         return contactsRepository.save(new Contact(null, contactDto.getPhone(), contactDto.getEmail(), hotel));
     }
 
     private ArrivalTime saveArrivalTime(ArrivalTimeDto arrivalTimeDto) {
-        LocalTime checkIn = arrivalTimeDto.getCheckIn() != null ? LocalTime.parse(arrivalTimeDto.getCheckIn()) : null;
-        LocalTime checkOut = arrivalTimeDto.getCheckOut() != null ? LocalTime.parse(arrivalTimeDto.getCheckOut()) : null;
+        LocalTime checkIn = arrivalTimeDto.getCheckIn() != null ? LocalTime.parse(arrivalTimeDto.getCheckIn()).withSecond(0)  : null;
+        LocalTime checkOut = arrivalTimeDto.getCheckOut() != null ? LocalTime.parse(arrivalTimeDto.getCheckOut()).withSecond(0)  : null;
         if (checkIn == null && checkOut == null) return null;
 
         return arrivalTimeRepository.findByCheckInAndCheckOut(checkIn, checkOut)
@@ -81,10 +105,11 @@ public class SaveService {
 
         Set<String> existingNames = existingAmenities.stream()
                 .map(Amenity::getName)
+                .map(String::toLowerCase)
                 .collect(Collectors.toSet());
 
         List<Amenity> newAmenities = amenities.stream()
-                .filter(name -> !existingNames.contains(name))
+                .filter(name -> !existingNames.contains(name.toLowerCase()))
                 .map(Amenity::new)
                 .collect(Collectors.toList());
 

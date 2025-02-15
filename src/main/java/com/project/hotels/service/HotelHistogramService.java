@@ -45,7 +45,7 @@ public class HotelHistogramService {
             case "amenities":
                 return getAmenitiesHistogram(cb, query);
             default:
-                throw new IllegalArgumentException("Invalid parameter: " + param);
+                throw new IllegalArgumentException("Data retrieval failed: Invalid parameter " + param);
         }
 
         return getResults(groupByField, cb, cb.count(root), query);

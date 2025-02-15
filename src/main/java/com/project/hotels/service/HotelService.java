@@ -42,6 +42,9 @@ public class HotelService {
         Specification<Hotel> spec = HotelSpecification.byFilters(name, brand, city, country, amenities);
         List<Hotel> hotels = hotelRepository.findAll(spec);
 
+        if (hotels.isEmpty())
+            throw new EntityNotFoundException("Data retrieval failed: Objects not found");
+
         return hotels.stream()
                 .map(formatService::mapToShortDto)
                 .collect(Collectors.toList());
