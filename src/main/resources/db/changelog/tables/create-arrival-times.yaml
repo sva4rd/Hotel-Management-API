@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: sva4rd
+      changes:
+        - createTable:
+            tableName: arrival_times
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: check_in
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_out
+                  type: time
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: arrival_times

@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: init-addresses
+      author: sva4rd
+      changes:
+        - insert:
+            tableName: addresses
+            columns:
+              - column:
+                  name: house_number
+                  valueNumeric: "9"
+              - column:
+                  name: street
+                  value: "Pobediteley Avenue"
+              - column:
+                  name: post_code
+                  value: "220004"
+              - column:
+                  name: city_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: addresses
+            columns:
+              - column:
+                  name: house_number
+                  valueNumeric: "44"
+              - column:
+                  name: street
+                  value: "Independence Avenue"
+              - column:
+                  name: post_code
+                  value: "220004"
+              - column:
+                  name: city_id
+                  valueNumeric: "1"
+        - insert:
+            tableName: addresses
+            columns:
+              - column:
+                  name: house_number
+                  valueNumeric: "4"
+              - column:
+                  name: street
+                  value: "Goldilocks Hill"
+              - column:
+                  name: post_code
+                  value: "223141"
+              - column:
+                  name: city_id
+                  valueNumeric: "2"
+
+      rollback:
+        - delete:
+            tableName: addresses
+            where: "id <= 3"

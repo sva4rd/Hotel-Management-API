@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - include: { file: tables/create-arrival-times.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-countries.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-cities.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-addresses.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-hotels.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-contacts.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-amenities.yaml, relativeToChangelogFile: true }
+  - include: { file: tables/create-hotel-amenities.yaml, relativeToChangelogFile: true }
+
+  - include: { file: data/init-arrival-times.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-countries.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-cities.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-addresses.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-hotels.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-contacts.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-amenities.yaml, relativeToChangelogFile: true }
+  - include: { file: data/init-hotel-amenities.yaml, relativeToChangelogFile: true }
