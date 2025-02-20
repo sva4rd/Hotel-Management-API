@@ -24,8 +24,8 @@ Hotel Management API — это RESTful API-приложение для упра
 ### 1. Клонирование проекта
 
 ```
-git clone https://github.com/your-repo/hotel-api.git
-cd hotel-api
+git clone https://github.com/sva4rd/Hotel-Management-API.git
+cd Hotel-Management-API
 ```
 
 ### 2. Сборка и запуск
